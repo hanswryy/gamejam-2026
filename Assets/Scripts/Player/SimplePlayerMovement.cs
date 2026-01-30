@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SimplePlayerMovement : MonoBehaviour
 {
+    
     float verticalDirection;
     float horizontalDirection;
     float speed;

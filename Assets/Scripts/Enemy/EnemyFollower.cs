@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyFollower : MonoBehaviour
 {
-    [SerializeField] float speed;
-    [SerializeField] int damage;
+    public float speed;
+    public int damage;
     GameObject player;
     void Start()
     {

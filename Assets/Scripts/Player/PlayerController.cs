@@ -26,15 +26,20 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        movePlayerAndAim();
+    }
+
+    public void movePlayerAndAim(){
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(mouseLookInput);
         if(Physics.Raycast(ray, out hit)){
             rotationTarget = hit.point;
         }
-        movePlayerAndAim();
-    }
 
-    public void movePlayerAndAim(){
+        PlayerHealthManager playerHealth = GetComponent<PlayerHealthManager>();
+        if (playerHealth != null && playerHealth.IsKnockedBack())
+            return;
+
         var lookPos = rotationTarget - transform.position;
         lookPos.y = 0;
         var rotation = Quaternion.LookRotation(lookPos);

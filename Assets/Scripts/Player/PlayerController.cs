@@ -44,8 +44,22 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 0.15f);
         }
 
+        // Transform movement input relative to camera
         Vector3 movement = new Vector3(moveInput.x, 0f, moveInput.y);
+        
+        // Get camera's forward and right directions, but keep them on the horizontal plane
+        Vector3 cameraForward = Camera.main.transform.forward;
+        Vector3 cameraRight = Camera.main.transform.right;
+        
+        cameraForward.y = 0f;
+        cameraRight.y = 0f;
+        
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+        
+        // Transform the movement relative to camera orientation
+        Vector3 relativeMovement = cameraRight * movement.x + cameraForward * movement.z;
 
-        transform.Translate(movement * Time.deltaTime * speed, Space.World);
+        transform.Translate(relativeMovement * Time.deltaTime * speed, Space.World);
     }
 }

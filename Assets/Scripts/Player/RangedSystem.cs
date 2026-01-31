@@ -7,7 +7,7 @@ public class RangedSystem : MonoBehaviour
 {
     [SerializeField, Range(0.1f, 1f)] float timeBetweenShots = 0.5f;
     [SerializeField] int ammoAmount = 10;
-    [SerializeField] float reloadTimer = 0.5f;
+    [SerializeField] float reloadTimer = 2f;
     [SerializeField] float maxDistance = 10f;
     [SerializeField] LayerMask enemyLayer;
     [SerializeField] GameObject hitParticles;

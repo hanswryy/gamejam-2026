@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput, mouseLookInput;
     private Vector3 rotationTarget;
     public float speed;
+    
+    private Animator animator;
 
     public void OnMove(InputAction.CallbackContext context){
         moveInput = context.ReadValue<Vector2>();
@@ -20,7 +22,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -51,6 +53,11 @@ public class PlayerController : MonoBehaviour
 
         // Transform movement input relative to camera
         Vector3 movement = new Vector3(moveInput.x, 0f, moveInput.y);
+
+        Debug.Log("Move Input: " + moveInput);
+
+        animator.SetFloat("Horizontal", moveInput.x);
+        animator.SetFloat("Vertical", moveInput.y);
         
         // Get camera's forward and right directions, but keep them on the horizontal plane
         Vector3 cameraForward = Camera.main.transform.forward;

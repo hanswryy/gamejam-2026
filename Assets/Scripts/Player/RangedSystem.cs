@@ -9,6 +9,7 @@ public class RangedSystem : MonoBehaviour
     [SerializeField] int ammoAmount = 10;
     [SerializeField] float reloadTimer = 2f;
     [SerializeField] float maxDistance = 10f;
+    [SerializeField] float damage = 15f; // Damage per shot
     [SerializeField] LayerMask enemyLayer;
     [SerializeField] GameObject hitParticles;
 
@@ -18,6 +19,7 @@ public class RangedSystem : MonoBehaviour
     bool isHit;
     bool canShoot = true;
     int ammo;
+
     void Start()
     {
         shotTimer = timeBetweenShots;
@@ -32,17 +34,16 @@ public class RangedSystem : MonoBehaviour
             Reloading();
         }
 
-        if (shotTimer <= 0 && canShoot)
-        {
-            Firing();
-            shotTimer = timeBetweenShots;
-        }
-        else
-        {
+        // Countdown the shot timer
+        if (shotTimer > 0) {
             shotTimer -= Time.deltaTime;
         }
 
-        Debug.Log($"Reload Time : {reloadTime}");
+        // Check for mouse input and fire if ready
+        if (Mouse.current.leftButton.isPressed && canShoot && shotTimer <= 0) {
+            Firing();
+            shotTimer = timeBetweenShots; // Reset timer after firing
+        }
     }
 
     void FixedUpdate()
@@ -68,7 +69,7 @@ public class RangedSystem : MonoBehaviour
     }
 
     void Firing() {
-        if (isHit && Mouse.current.leftButton.isPressed)
+        if (isHit)
         {
             // To Do :
             // Play shooting sound
@@ -79,11 +80,25 @@ public class RangedSystem : MonoBehaviour
             Instantiate(hitParticles, enemy.transform.position, Quaternion.identity);
 
             // Deal damage to the enemy hit
+            DealDamageToEnemy(hit.collider);
 
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
-
-            ammo--;
         }
+        
+        // Always consume ammo and show feedback when firing
+        ammo--;
+        Debug.Log("Bang!");
+        Debug.Log($"Ammo left: {ammo}");
+    }
+    
+    void DealDamageToEnemy(Collider enemy) {
+        var enemyHealthManager = enemy.GetComponent<EnemyHealthManager>();
+        if (enemyHealthManager != null) {
+            enemyHealthManager.TakeDamage(damage, transform.position);
+            Debug.Log($"Shot {enemy.name} for {damage} damage");
+        }
+        
+        // Add visual feedback here if needed (muzzle flash, screen shake, etc.)
     }
 
     void Reloading() { 

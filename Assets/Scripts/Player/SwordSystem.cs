@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ public class SwordSystem : MonoBehaviour
     [Header("Attack Settings")]
     [SerializeField] private float[] attackRanges = { 2f, 2f, 2.2f }; // Range for each attack in combo
     [SerializeField] private float[] attackDamage = { 10f, 15f, 25f }; // Damage for each attack in combo
+    [SerializeField] private float[] attackDelays = { 0.4f, 0.4f, 0.5f }; // Delay before damage for each attack
     [SerializeField] private string enemyTag = "Enemy";
     [SerializeField] private Transform attackPoint; // Point from which attacks are calculated
     [SerializeField] private LayerMask enemyLayers = 3; // What layers are considered enemies
@@ -78,13 +80,22 @@ public class SwordSystem : MonoBehaviour
         anim.SetInteger("AttackCount", attackCount);
         timer = 0f;
         
+        // Clear hit enemies for this new attack in the combo
+        hitEnemies.Clear();
+        
+        // Start delayed attack coroutine
+        StartCoroutine(DelayedAttack());
+    }
+    
+    
+    private IEnumerator DelayedAttack() {
+        float delay = (attackCount <= attackDelays.Length) ? attackDelays[attackCount - 1] : 0.3f;
+        yield return new WaitForSeconds(delay);
+        
         // Perform attack on enemies
         PerformAttack();
     }
     
-    /// <summary>
-    /// Performs the actual attack, detecting and damaging enemies
-    /// </summary>
     void PerformAttack() {
         if (attackCount <= 0 || attackCount > attackRanges.Length) return;
         
@@ -94,53 +105,36 @@ public class SwordSystem : MonoBehaviour
         
         // Find all enemies in range
         Collider[] enemiesInRange = Physics.OverlapSphere(attackPoint.position, currentRange, enemyLayers);
-        Debug.Log(enemiesInRange);
+        Debug.Log($"Attack {attackCount}: Found {enemiesInRange.Length} enemies in range {currentRange}");
         
         foreach (Collider enemy in enemiesInRange) {
             // Check if enemy has the correct tag
             if (enemy.CompareTag(enemyTag)) {
-                // Prevent hitting the same enemy multiple times in one combo
-                Debug.Log("Hitting enemy");
                 if (!hitEnemies.Contains(enemy)) {
                     hitEnemies.Add(enemy);
+                    Debug.Log($"Hitting {enemy.name} with attack {attackCount}");
                     DealDamageToEnemy(enemy, currentDamage);
+                } else {
+                    Debug.Log($"Enemy {enemy.name} already hit in this attack");
                 }
             }
         }
     }
     
-    /// <summary>
-    /// Deals damage to an enemy
-    /// </summary>
     void DealDamageToEnemy(Collider enemy, float damage) {
-        // Try to get health component (adapt this to your enemy health system)
-        // var healthComponent = enemy.GetComponent<Health>();
-        // if (healthComponent != null) {
-        //     healthComponent.TakeDamage(damage);
-        // }
-        
-        // // Alternative: Try different health component names
-        // var enemyHealth = enemy.GetComponent<EnemyHealth>();
-        // if (enemyHealth != null) {
-        //     enemyHealth.TakeDamage(damage);
-        // }
-        
-        // Log for debugging
-        Debug.Log($"Hit {enemy.name} for {damage} damage with attack {attackCount}");
+        // Try to get EnemyHealthManager component
+        var enemyHealthManager = enemy.GetComponent<EnemyHealthManager>();
+        if (enemyHealthManager != null) {
+            enemyHealthManager.TakeDamage(damage, attackPoint.position);
+        }
         
         // Add visual feedback here if needed (particles, screen shake, etc.)
     }
     
-    /// <summary>
-    /// Call this method from animation events to trigger attacks at specific frames
-    /// </summary>
     public void OnAttackAnimationEvent() {
         PerformAttack();
     }
     
-    /// <summary>
-    /// Resets the hit enemies list when a new combo starts
-    /// </summary>
     public void ResetCombo() {
         hitEnemies.Clear();
         attackCount = 0;

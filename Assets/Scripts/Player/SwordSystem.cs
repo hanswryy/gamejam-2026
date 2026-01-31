@@ -7,8 +7,8 @@ public class SwordSystem : MonoBehaviour
 {
     [Header("Combo Settings")]
     private int attackCount;
-    private float expireTime = 1.3f;
-    private float acceptInputTimer = 0.7f;
+    private float expireTime = 1f;
+    private float acceptInputTimer = 0.6f;
     private bool canAcceptInput = true;
     private float timer;
     private bool isComboEnd = false;

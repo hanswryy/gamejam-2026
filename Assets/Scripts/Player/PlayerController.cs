@@ -53,11 +53,6 @@ public class PlayerController : MonoBehaviour
 
         // Transform movement input relative to camera
         Vector3 movement = new Vector3(moveInput.x, 0f, moveInput.y);
-
-        Debug.Log("Move Input: " + moveInput);
-
-        animator.SetFloat("Horizontal", moveInput.x);
-        animator.SetFloat("Vertical", moveInput.y);
         
         // Get camera's forward and right directions, but keep them on the horizontal plane
         Vector3 cameraForward = Camera.main.transform.forward;
@@ -73,5 +68,16 @@ public class PlayerController : MonoBehaviour
         Vector3 relativeMovement = cameraRight * movement.x + cameraForward * movement.z;
 
         transform.Translate(relativeMovement * Time.deltaTime * speed, Space.World);
+
+        Vector3 playerForward = transform.forward;
+        Vector3 playerRight = transform.right;
+        
+        // Project the relative movement onto the player's local axes
+        float forwardMovement = Vector3.Dot(relativeMovement.normalized, playerForward);
+        float rightMovement = Vector3.Dot(relativeMovement.normalized, playerRight);
+        
+        // Set animator parameters based on movement relative to player's facing direction
+        animator.SetFloat("Horizontal", rightMovement);
+        animator.SetFloat("Vertical", forwardMovement);
     }
 }

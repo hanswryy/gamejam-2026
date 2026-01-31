@@ -10,7 +10,7 @@ public class DestroyParticles : MonoBehaviour
     {
         particleSystem = GetComponent<ParticleSystem>();
         particleDuration = particleSystem.main.duration;
-        Debug.Log("Particle Duration: " + particleDuration);
+        // Debug.Log("Particle Duration: " + particleDuration);
     }
     void Update()
     {

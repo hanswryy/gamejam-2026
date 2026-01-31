@@ -142,8 +142,7 @@ public class PlayerHealthManager : MonoBehaviour
         // Example: Take damage when colliding with an enemy
         if (other.gameObject.CompareTag("Enemy"))
         {
-            damageTaken = other.gameObject.GetComponent<EnemyFollower>().damage;
-            TakeDamage(damageTaken, other.transform.position);
+            TakeDamage(1, other.transform.position);
         }
     }
 
@@ -151,8 +150,7 @@ public class PlayerHealthManager : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            damageTaken = other.gameObject.GetComponent<EnemyFollower>().damage;
-            TakeDamage(damageTaken, transform.position - transform.forward);
+            TakeDamage(1, transform.position - transform.forward);
         }
     }
 }

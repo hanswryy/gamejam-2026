@@ -39,6 +39,7 @@ public class BossMissile : MonoBehaviour
         if (other.gameObject.tag == "Player" || other.gameObject.tag == "Terrain")
         {
             Instantiate(explosionEffect, transform.position, Quaternion.identity);
+            other.gameObject.GetComponent<PlayerHealthManager>()?.TakeDamage(10, transform.position);
             Destroy(gameObject);
         }
     }

@@ -21,13 +21,16 @@ public class PlayerHealthManager : MonoBehaviour
     private Renderer playerRenderer;
     private Color originalColor;
     private PlayerController playerController;
+
+    private KillsAndTimer killsAndTimer;
     
     void Start()
     {
         currentHealth = maxHealth;
         playerRenderer = GetComponent<Renderer>();
         playerController = GetComponent<PlayerController>();
-        
+        killsAndTimer = FindObjectOfType<KillsAndTimer>();
+
         if (playerRenderer != null)
             originalColor = playerRenderer.material.color;
     }
@@ -120,9 +123,32 @@ public class PlayerHealthManager : MonoBehaviour
     
     private void Die()
     {
-        // Handle player death
-        Debug.Log("Player died!");
-        // Add death logic here (respawn, game over, etc.)
+        Debug.Log($"{gameObject.name} died!");
+        
+        // Add death effects here (particles, sound, etc.)
+        
+        // Disable player components
+        Collider playerCollider = GetComponent<Collider>();
+        if (playerCollider != null)
+            playerCollider.enabled = false;
+            
+        if (playerController != null)
+            playerController.enabled = false;
+        
+        // You can add death animation here or destroy the enemy
+        // For now, just disable the GameObject after a short delay
+        StartCoroutine(DeathSequence());
+    }
+    
+    private IEnumerator DeathSequence()
+    {
+        // Optional: Play death animation or effects
+        yield return new WaitForSeconds(1f);
+
+        killsAndTimer.playerLose = true;
+        
+        // Destroy the enemy
+        Destroy(gameObject);
     }
     
     public bool IsInvulnerable()

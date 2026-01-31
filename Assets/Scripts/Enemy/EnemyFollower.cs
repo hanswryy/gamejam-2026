@@ -24,11 +24,13 @@ public class EnemyFollower : MonoBehaviour
 
     void ProcessDirection()
     {
+        if (player == null) return;
         transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
     }
 
     void ProcessRotation()
     {
+        if (player == null) return;
         Vector3 targetPosition = player.transform.position - transform.position;
         targetPosition.y = 0; // Cap Y-axis rotation
         Quaternion rotation = Quaternion.LookRotation(targetPosition);

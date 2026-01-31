@@ -42,7 +42,7 @@ public class RangedSystem : MonoBehaviour
             shotTimer -= Time.deltaTime;
         }
 
-        Debug.Log($"Reload Time : {reloadTime}");
+        //Debug.Log($"Reload Time : {reloadTime}");
     }
 
     void FixedUpdate()
@@ -89,7 +89,7 @@ public class RangedSystem : MonoBehaviour
     void Reloading() { 
         if (reloadTime <= 0)
         {
-            Debug.Log("Reloading...");
+            // Debug.Log("Reloading...");
             canShoot = true;
             reloadTime = reloadTimer;
             ammo = ammoAmount;

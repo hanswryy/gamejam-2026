@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
         // Transform movement input relative to camera
         Vector3 movement = new Vector3(moveInput.x, 0f, moveInput.y);
 
-        Debug.Log("Move Input: " + moveInput);
+        // Debug.Log("Move Input: " + moveInput);
 
         animator.SetFloat("Horizontal", moveInput.x);
         animator.SetFloat("Vertical", moveInput.y);

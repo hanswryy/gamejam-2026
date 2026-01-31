@@ -21,11 +21,15 @@ public class EnemyHealthManager : MonoBehaviour
     private Renderer enemyRenderer;
     private Color originalColor;
     private MonoBehaviour enemyController; // Generic reference to enemy movement script
+
+    KillsAndTimer killsAndTimer;
     
     void Start()
     {
         currentHealth = maxHealth;
         enemyRenderer = GetComponent<Renderer>();
+
+        killsAndTimer = GameObject.FindWithTag("KillsAndTimer").GetComponent<KillsAndTimer>();
         
         // Try to find common enemy movement components
         enemyController = GetComponent<MonoBehaviour>(); // Will need to be more specific based on your enemy scripts
@@ -146,6 +150,18 @@ public class EnemyHealthManager : MonoBehaviour
     {
         // Optional: Play death animation or effects
         yield return new WaitForSeconds(1f);
+
+        // Check if this is boss enemy by gameobject name
+        if (gameObject.name.Contains("Boss")) {
+            if (killsAndTimer != null) {
+                killsAndTimer.bossDied = true;
+            }
+        }
+
+        // Increment kill count
+        if (killsAndTimer != null) {
+            killsAndTimer.AddKill();
+        }
         
         // Destroy the enemy
         Destroy(gameObject);

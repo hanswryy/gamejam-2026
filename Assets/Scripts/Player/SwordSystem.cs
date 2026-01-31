@@ -138,7 +138,16 @@ public class SwordSystem : MonoBehaviour
     public void ResetCombo() {
         hitEnemies.Clear();
         attackCount = 0;
-        anim.SetInteger("AttackCount", attackCount);
+        
+        // Ensure animator is initialized before using it
+        if (anim == null) {
+            anim = GetComponent<Animator>();
+        }
+        
+        if (anim != null) {
+            anim.SetInteger("AttackCount", attackCount);
+        }
+        
         timer = 0f;
         canAcceptInput = true;
         isComboEnd = false;

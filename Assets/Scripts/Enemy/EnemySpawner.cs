@@ -9,17 +9,37 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] GameObject spawnEffect;
     [SerializeField] float spawnInterval = 5f;
     [SerializeField] float inertia = 5f;
+    [SerializeField] GameObject bossPrefab;
 
     float spawnTimer;
 
     Vector3 playerPosition;
+    // Get kills and timer object
+    KillsAndTimer kills;
+    
+    void Start() {
+        kills = GameObject.FindWithTag("KillsAndTimer").GetComponent<KillsAndTimer>();
+    }
+
     void Update()
     {
         OrbitAroundPlayer();
         StartSpawnEnemy();
+
+        // Cheat key for spawning boss by set kills to 99
+        if (Input.GetKeyDown(KeyCode.B)) {
+            kills.spawnBoss();
+        }
+
+        if (kills.GetKills() >= 100) {
+            Instantiate(bossPrefab, transform.position + new Vector3(0, 0, 10f), Quaternion.identity);
+            // Stop spawning enemies
+            this.enabled = false;
+        }
     }
 
     void OrbitAroundPlayer() {
+        if (GameObject.FindWithTag("Player") == null) return;
         playerPosition = GameObject.FindWithTag("Player").transform.position;
         //transform.RotateAround(playerPosition, Vector3.up, inertia * Time.deltaTime);
         transform.position = playerPosition;

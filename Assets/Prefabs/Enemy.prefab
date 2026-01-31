@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 998797096807691115}
   - component: {fileID: 4160306410140217514}
   - component: {fileID: 3136547709424995638}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Capsule (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 5628335736386456695}
   - component: {fileID: 6205464921068856183}
   - component: {fileID: 3320171814040911661}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: 6022874917969357034}
   - component: {fileID: 6033781815141615089}
   - component: {fileID: 2616986215974006322}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -254,6 +254,6 @@ MonoBehaviour:
   maxHealth: 10
   currentHealth: 0
   invulnerabilityDuration: 0
-  knockbackForce: 10
+  knockbackForce: 20
   knockbackDuration: 0.4
   flashDuration: 1

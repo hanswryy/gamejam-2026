@@ -411,6 +411,7 @@ MonoBehaviour:
   dashDistance: 5
   dashDuration: 0.3
   dashCooldown: 1
+  dashAlpha: 0.3
 --- !u!136 &811054440
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -467,7 +468,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 811054435}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b790ca84fafc48e2ad78c6bbd6e2581, type: 3}
   m_Name: 
@@ -498,7 +499,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 811054435}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51fc1576ccfff0f40b0294e28cd50566, type: 3}
   m_Name: 
@@ -582,7 +583,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0ad25e4a0de214b4c9a2f81257060be7, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1098,6 +1099,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -21.507217
       objectReference: {fileID: 0}
+    - target: {fileID: 3853268898807207900, guid: 70c38fd754c6e49c0bbddb2487cb8f30, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4747904710347621765, guid: 70c38fd754c6e49c0bbddb2487cb8f30, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 36.263725
@@ -1169,6 +1174,10 @@ PrefabInstance:
     - target: {fileID: 6000407479487422213, guid: 70c38fd754c6e49c0bbddb2487cb8f30, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 34.079453
+      objectReference: {fileID: 0}
+    - target: {fileID: 6148737315974723067, guid: 70c38fd754c6e49c0bbddb2487cb8f30, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6341119541397085964, guid: 70c38fd754c6e49c0bbddb2487cb8f30, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1333,7 +1342,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1318445425
 Transform:
   m_ObjectHideFlags: 0
@@ -1526,7 +1535,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8524924320049451139, guid: f7e78815eb11944c0b037cffadcf9d0c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1927,7 +1936,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8524924320049451139, guid: f7e78815eb11944c0b037cffadcf9d0c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

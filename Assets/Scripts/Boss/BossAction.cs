@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class BossAction : MonoBehaviour
 {
-    [Header("Boss Stats")]
-    [SerializeField] float maxHealth = 100f;
-    [SerializeField] float currentHealth;
+    // [Header("Boss Stats")]
+    // [SerializeField] float maxHealth = 100f;
+    // [SerializeField] float currentHealth;
+    private float maxHealth;
+    private float currentHealth;
 
     [Header("Movement")]
     [SerializeField] float bossSpeed = 5f;
@@ -55,6 +57,7 @@ public class BossAction : MonoBehaviour
     void Start()
     {
         // Initialize health
+        maxHealth = GetComponent<EnemyHealthManager>().maxHealth;
         currentHealth = maxHealth;
 
         // Initialize state management
@@ -78,6 +81,8 @@ public class BossAction : MonoBehaviour
 
     void Update()
     {
+        // Update current health from health manager
+        currentHealth = GetComponent<EnemyHealthManager>().currentHealth;
         // Handle state machine
         switch (currentState)
         {
@@ -124,8 +129,8 @@ public class BossAction : MonoBehaviour
     List<BossStates> GetAvailableStates()
     {
         List<BossStates> availableStates = new List<BossStates>();
-        float healthPercentage = (currentHealth / maxHealth) * 100f;
-
+        
+        float healthPercentage = ((float)currentHealth / (float)maxHealth) * 100f;
         if (healthPercentage <= 0)
         {
             // Boss is dead
@@ -168,7 +173,7 @@ public class BossAction : MonoBehaviour
             BossStates newState = availableStates[randomIndex];
 
             SetBossState(newState);
-            Debug.Log($"[Boss] Health: {currentHealth}/{maxHealth} ({(currentHealth / maxHealth) * 100f}%) | Changed to {currentState}");
+            Debug.Log($"[Boss] Health: {currentHealth}/{maxHealth} ({((float)currentHealth / (float)maxHealth) * 100f}%) | Changed to {currentState}");
         }
 
         isRunningState = false; // ✅ Allow new state coroutine to start
@@ -421,26 +426,26 @@ public class BossAction : MonoBehaviour
     /// <summary>
     /// Call this method to damage the boss
     /// </summary>
-    public void TakeDamage(float damage)
-    {
-        currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+    // public void TakeDamage(float damage)
+    // {
+    //     currentHealth -= damage;
+    //     currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-        Debug.Log($"[Boss] Took {damage} damage! Health: {currentHealth}/{maxHealth}");
+    //     Debug.Log($"[Boss] Took {damage} damage! Health: {currentHealth}/{maxHealth}");
 
-        // Check if boss died
-        if (currentHealth <= 0 && currentState != BossStates.DEAD)
-        {
-            SetBossState(BossStates.DEAD);
-            isRunningState = false; // Allow death coroutine to run
-        }
-    }
+    //     // Check if boss died
+    //     if (currentHealth <= 0 && currentState != BossStates.DEAD)
+    //     {
+    //         SetBossState(BossStates.DEAD);
+    //         isRunningState = false; // Allow death coroutine to run
+    //     }
+    // }
 
-    /// <summary>
-    /// Get current health percentage
-    /// </summary>
-    public float GetHealthPercentage()
-    {
-        return (currentHealth / maxHealth) * 100f;
-    }
+    // /// <summary>
+    // /// Get current health percentage
+    // /// </summary>
+    // public float GetHealthPercentage()
+    // {
+    //     return (currentHealth / maxHealth) * 100f;
+    // }
 }

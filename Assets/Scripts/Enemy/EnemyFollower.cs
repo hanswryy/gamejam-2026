@@ -9,12 +9,11 @@ public class EnemyFollower : MonoBehaviour
     GameObject player;
     void Start()
     {
-
+        player = GameObject.FindWithTag("Player");
     }
 
     private void Update()
     {
-        player = GameObject.FindWithTag("Player");
         ProcessDirection();
     }
 

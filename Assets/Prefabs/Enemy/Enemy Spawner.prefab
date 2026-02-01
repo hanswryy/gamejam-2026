@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8088a7ad195012459fecbe8fe1b1053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 6021853725507486049, guid: 1ed366eb7bf6f5d45b33ed1f85bc6c1a, type: 3}
+  enemyPrefab: {fileID: 8524924320049451139, guid: f7e78815eb11944c0b037cffadcf9d0c, type: 3}
   spawnPoints:
   - {fileID: 6904056752640944966}
   - {fileID: 5643589044897344193}
@@ -267,6 +267,7 @@ MonoBehaviour:
   spawnEffect: {fileID: 5725378162573263199, guid: 3a009c0a94aeb264b9fc83ab5d567e53, type: 3}
   spawnInterval: 2
   inertia: 250
+  bossPrefab: {fileID: 5529957542102200332, guid: 28d718cdec7972e4cb5a7477f3aaebb7, type: 3}
 --- !u!1 &6904056752640944966
 GameObject:
   m_ObjectHideFlags: 0

@@ -78,6 +78,7 @@ public class SwordSystem : MonoBehaviour
             isComboEnd = true;
         }
         anim.SetInteger("AttackCount", attackCount);
+        SoundManager.PlaySound(SoundType.MELEE);
         timer = 0f;
         
         // Clear hit enemies for this new attack in the combo

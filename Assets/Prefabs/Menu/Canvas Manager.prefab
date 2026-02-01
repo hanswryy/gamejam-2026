@@ -65,5 +65,11 @@ MonoBehaviour:
   healthUI: {fileID: 0}
   offsetPerHealth: 100
   maxHealth: 2
+  weaponIconUI: {fileID: 0}
+  ammoUI: {fileID: 0}
+  ammoTMP: {fileID: 0}
   fullHealthSprite: {fileID: 21300000, guid: 63fb5cc6d3d350f4e9e587f778b4e6ba, type: 3}
   lostHealthSprite: {fileID: 21300000, guid: 1357f054c30a59e49a205c9d2dab6dff, type: 3}
+  weaponSprite:
+  - {fileID: 21300000, guid: 81b32801030663a438ec1d785ae7fb7a, type: 3}
+  - {fileID: 21300000, guid: b290104bb5b80274886bf6460b7ac6fc, type: 3}

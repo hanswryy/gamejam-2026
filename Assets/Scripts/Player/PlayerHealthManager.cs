@@ -48,7 +48,9 @@ public class PlayerHealthManager : MonoBehaviour
     public void TakeDamage(int damage, Vector3 damageSource)
     {
         if (isInvulnerable) return;
-        
+
+        SoundManager.PlaySound(SoundType.DAMAGED);  
+
         currentHealth -= damage;
         
         Vector3 knockbackDirection = (transform.position - damageSource).normalized;
@@ -144,6 +146,8 @@ public class PlayerHealthManager : MonoBehaviour
     {
         // Optional: Play death animation or effects
         yield return new WaitForSeconds(1f);
+
+        SoundManager.PlaySound(SoundType.DEATH);
 
         killsAndTimer.playerLose = true;
         

@@ -68,7 +68,9 @@ public class PlayerController : MonoBehaviour
     {
         isDashing = true;
         canDash = false;
-        
+
+        SoundManager.PlaySound(SoundType.DASH);
+
         // Disable collision and physics immediately
         SetCollisionEnabled(false);
         SetPlayerTransparency(true);

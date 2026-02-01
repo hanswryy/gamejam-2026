@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] GameObject enemyPrefab;
+    [SerializeField] GameObject enemy2Prefab;
     [SerializeField] GameObject[] spawnPoints;
     [SerializeField] GameObject spawnEffect;
     [SerializeField] float spawnInterval = 5f;
@@ -68,7 +69,11 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator SpawnAtPoint(GameObject spawnPoint)
     {
         Instantiate(spawnEffect, spawnPoint.transform.position, Quaternion.identity);
-        Instantiate(enemyPrefab, new Vector3(spawnPoint.transform.position.x, 1, spawnPoint.transform.position.z), Quaternion.identity);
+        
+        // Randomly select between enemy types
+        GameObject selectedEnemyPrefab = Random.Range(0, 2) == 0 ? enemyPrefab : enemy2Prefab;
+        
+        Instantiate(selectedEnemyPrefab, new Vector3(spawnPoint.transform.position.x, 1, spawnPoint.transform.position.z), Quaternion.identity);
         yield return new WaitForSeconds(spawnInterval);
     }
 }

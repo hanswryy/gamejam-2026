@@ -19,6 +19,7 @@ public class MaskManager : MonoBehaviour
     [Header("Weapon GameObjects")]
     [SerializeField] private GameObject hitArea;
     [SerializeField] private GameObject swordObject;
+    [SerializeField] private GameObject gunObject;
     
     [Header("Audio/Visual Feedback")]
     [SerializeField] private AudioClip switchSound;
@@ -193,6 +194,10 @@ public class MaskManager : MonoBehaviour
             
         if (swordObject != null)
             swordObject.SetActive(!isGunState);
+            
+        // Show/hide gun-related gameobjects
+        if (gunObject != null)
+            gunObject.SetActive(isGunState);
             
         // Restore saved ammo when switching to gun state
         if (isGunState && savedAmmoCount >= 0 && rangedSystem != null)

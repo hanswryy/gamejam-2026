@@ -68,7 +68,7 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator SpawnAtPoint(GameObject spawnPoint)
     {
         Instantiate(spawnEffect, spawnPoint.transform.position, Quaternion.identity);
-        Instantiate(enemyPrefab, spawnPoint.transform.position, Quaternion.identity);
+        Instantiate(enemyPrefab, new Vector3(spawnPoint.transform.position.x, 1, spawnPoint.transform.position.z), Quaternion.identity);
         yield return new WaitForSeconds(spawnInterval);
     }
 }

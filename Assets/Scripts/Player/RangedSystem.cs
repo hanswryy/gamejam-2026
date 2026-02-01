@@ -29,18 +29,22 @@ public class RangedSystem : MonoBehaviour
 
     void Update()
     {
-        if (ammo <= 0) {
+        if (ammo <= 0)
+        {
             canShoot = false;
             Reloading();
         }
 
         // Countdown the shot timer
-        if (shotTimer > 0) {
+        if (shotTimer > 0)
+        {
             shotTimer -= Time.deltaTime;
         }
 
         // Check for mouse input and fire if ready
-        if (Mouse.current.leftButton.isPressed && canShoot && shotTimer <= 0) {
+        if (Mouse.current.leftButton.isPressed && canShoot && shotTimer <= 0)
+        {
+            if (canShoot) SoundManager.PlaySound(SoundType.SHOOT);
             Firing();
             shotTimer = timeBetweenShots; // Reset timer after firing
         }
@@ -51,7 +55,8 @@ public class RangedSystem : MonoBehaviour
         DrawRaycast();
     }
 
-    void DrawRaycast() {
+    void DrawRaycast()
+    {
         isHit = Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, maxDistance, enemyLayer);
 
         if (isHit && Mouse.current.leftButton.isPressed) return;
@@ -68,7 +73,8 @@ public class RangedSystem : MonoBehaviour
         }
     }
 
-    void Firing() {
+    void Firing()
+    {
         if (isHit)
         {
             // To Do :
@@ -84,24 +90,27 @@ public class RangedSystem : MonoBehaviour
 
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
         }
-        
+
         // Always consume ammo and show feedback when firing
         ammo--;
         Debug.Log("Bang!");
         Debug.Log($"Ammo left: {ammo}");
     }
-    
-    void DealDamageToEnemy(Collider enemy) {
+
+    void DealDamageToEnemy(Collider enemy)
+    {
         var enemyHealthManager = enemy.GetComponent<EnemyHealthManager>();
-        if (enemyHealthManager != null) {
+        if (enemyHealthManager != null)
+        {
             enemyHealthManager.TakeDamage(damage, transform.position);
             Debug.Log($"Shot {enemy.name} for {damage} damage");
         }
-        
+
         // Add visual feedback here if needed (muzzle flash, screen shake, etc.)
     }
 
-    void Reloading() { 
+    void Reloading()
+    {
         if (reloadTime <= 0)
         {
             // Debug.Log("Reloading...");
@@ -109,16 +118,19 @@ public class RangedSystem : MonoBehaviour
             reloadTime = reloadTimer;
             ammo = ammoAmount;
         }
-        else { 
+        else
+        {
             reloadTime -= Time.deltaTime;
         }
     }
 
-    public int GetAmmo() {
+    public int GetAmmo()
+    {
         return ammo;
     }
 
-    public bool CanFire() {
+    public bool CanFire()
+    {
         return canShoot;
     }
 }

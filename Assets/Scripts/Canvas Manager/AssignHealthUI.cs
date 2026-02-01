@@ -1,18 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class AssignHealthUI : MonoBehaviour
 {
-    [Header("Health UI Settings")]
+    [Header("Player UI Settings")]
     [SerializeField] GameObject healthUI;              // Reference to the first health icon
     [SerializeField] float offsetPerHealth = 10f;      // Pixel offset between each icon
     [SerializeField] int maxHealth = 5;                // Maximum health (number of icons)
+    [SerializeField] GameObject weaponIconUI;          // Reference to the weapon icon UI
+    [SerializeField] GameObject ammoUI;
+    [SerializeField] TextMeshProUGUI ammoTMP;
+    Image weaponImage;
+    RangedSystem rangedSystem;
+    int currentWeaponIndex = 0;
 
     [Header("Sprite References")]
     [SerializeField] Sprite fullHealthSprite;          // Sprite for full health
     [SerializeField] Sprite lostHealthSprite;          // Sprite for lost health (damaged state)
+    [SerializeField] Sprite[] weaponSprite;
 
     GameObject player;
     int playerMaxHealth;
@@ -23,11 +32,34 @@ public class AssignHealthUI : MonoBehaviour
     {
         InitializeHealthUI();
         UpdateHealthUI(playerMaxHealth);
+        UpdateWeaponUsage(0);
+    }
+
+    public void UpdateWeaponUsage(int weaponIndex)
+    {
+        currentWeaponIndex = weaponIndex;
+        weaponImage = weaponIconUI.GetComponent<Image>();
+        Debug.Log(weaponSprite);    
+        weaponImage.sprite = weaponSprite[currentWeaponIndex];
     }
 
     private void Update()
     {
         if (player) UpdateHealthUI(player.GetComponent<PlayerHealthManager>().currentHealth);
+        UpdateAmmoTMP();
+    }
+
+    void UpdateAmmoTMP() {
+        if (currentWeaponIndex == 1)
+        {
+            ammoUI.SetActive(true);
+            rangedSystem = player.GetComponent<RangedSystem>();
+            ammoTMP.text = rangedSystem.GetAmmo().ToString();
+        }
+        else
+        {
+            ammoUI.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -137,7 +169,7 @@ public class AssignHealthUI : MonoBehaviour
             }
         }
 
-        Debug.Log($"[AssignHealthUI] Updated UI to show {currentHealth}/{maxHealth} health");
+        // Debug.Log($"[AssignHealthUI] Updated UI to show {currentHealth}/{maxHealth} health");
     }
 
     /// <summary>

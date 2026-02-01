@@ -110,7 +110,7 @@ public class SwordSystem : MonoBehaviour
         
         foreach (Collider enemy in enemiesInRange) {
             // Check if enemy has the correct tag
-            if (enemy.CompareTag(enemyTag)) {
+            if (enemy.CompareTag(enemyTag) || enemy.CompareTag("Boss")) {
                 if (!hitEnemies.Contains(enemy)) {
                     hitEnemies.Add(enemy);
                     Debug.Log($"Hitting {enemy.name} with attack {attackCount}");

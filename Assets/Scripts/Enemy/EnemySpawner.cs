@@ -11,15 +11,20 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float spawnInterval = 5f;
     [SerializeField] float inertia = 5f;
     [SerializeField] GameObject bossPrefab;
+    [SerializeField] int minimumKillsBeforeBoss = 15;
+    [SerializeField] int minimumSecondsBeforeBoss = 15;
+    [SerializeField] GameObject canvasManager;
 
     float spawnTimer;
 
     Vector3 playerPosition;
     // Get kills and timer object
     KillsAndTimer kills;
-    
+    AssignHealthUI assignHealthUI;
+
     void Start() {
         kills = GameObject.FindWithTag("KillsAndTimer").GetComponent<KillsAndTimer>();
+        assignHealthUI = canvasManager.GetComponent<AssignHealthUI>();
     }
 
     void Update()
@@ -32,8 +37,10 @@ public class EnemySpawner : MonoBehaviour
             kills.spawnBoss();
         }
 
-        if (kills.GetKills() >= 100) {
+        if (kills.GetKills() >= minimumKillsBeforeBoss || kills.GetSeconds() > minimumSecondsBeforeBoss) {
+            assignHealthUI.ActivateBossEnemyPanel();
             Instantiate(bossPrefab, transform.position + new Vector3(0, 0, 10f), Quaternion.identity);
+            Debug.Log("Boss Spawned");
             // Stop spawning enemies
             this.enabled = false;
         }

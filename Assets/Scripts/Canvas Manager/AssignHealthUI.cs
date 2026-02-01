@@ -14,9 +14,16 @@ public class AssignHealthUI : MonoBehaviour
     [SerializeField] GameObject weaponIconUI;          // Reference to the weapon icon UI
     [SerializeField] GameObject ammoUI;
     [SerializeField] TextMeshProUGUI ammoTMP;
+    [SerializeField] GameObject enemyHealthUI;
+    [SerializeField] Slider enemyHealthSlider;
+
+    GameObject boss;
+    EnemyHealthManager enemyHealthManager;
     Image weaponImage;
     RangedSystem rangedSystem;
+    KillsAndTimer killsAndTimer;
     int currentWeaponIndex = 0;
+    bool bossPresent = false;
 
     [Header("Sprite References")]
     [SerializeField] Sprite fullHealthSprite;          // Sprite for full health
@@ -33,23 +40,50 @@ public class AssignHealthUI : MonoBehaviour
         InitializeHealthUI();
         UpdateHealthUI(playerMaxHealth);
         UpdateWeaponUsage(0);
+
+        killsAndTimer = GameObject.FindWithTag("KillsAndTimer").GetComponent<KillsAndTimer>();
+
+        enemyHealthUI.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (player) UpdateHealthUI(player.GetComponent<PlayerHealthManager>().currentHealth);
+        boss = GameObject.FindWithTag("Boss");
+        UpdateAmmoTMP();
+        if (!boss)
+        {
+            return;
+        }
+        else
+        {
+            enemyHealthManager = boss.GetComponent<EnemyHealthManager>();
+            UpdateEnemyHealth();
+        }
     }
 
     public void UpdateWeaponUsage(int weaponIndex)
     {
         currentWeaponIndex = weaponIndex;
         weaponImage = weaponIconUI.GetComponent<Image>();
-        Debug.Log(weaponSprite);    
+        Debug.Log(weaponSprite);
         weaponImage.sprite = weaponSprite[currentWeaponIndex];
     }
 
-    private void Update()
+    public void ActivateBossEnemyPanel()
     {
-        if (player) UpdateHealthUI(player.GetComponent<PlayerHealthManager>().currentHealth);
-        UpdateAmmoTMP();
+
+        enemyHealthUI.SetActive(true);
     }
 
-    void UpdateAmmoTMP() {
+    public void UpdateEnemyHealth()
+    {
+        Debug.Log($"Enemy Slider Value: {enemyHealthSlider.value} || BossHealth");
+        enemyHealthSlider.value = enemyHealthManager.currentHealth;
+    }
+
+    void UpdateAmmoTMP()
+    {
         if (currentWeaponIndex == 1)
         {
             ammoUI.SetActive(true);

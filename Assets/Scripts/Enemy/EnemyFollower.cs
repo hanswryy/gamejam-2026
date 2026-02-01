@@ -25,7 +25,10 @@ public class EnemyFollower : MonoBehaviour
     void ProcessDirection()
     {
         if (player == null) return;
-        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+        
+        // Create target position but keep current Y position
+        Vector3 targetPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
     }
 
     void ProcessRotation()

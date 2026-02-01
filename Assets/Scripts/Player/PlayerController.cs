@@ -262,7 +262,12 @@ public class PlayerController : MonoBehaviour
         // Transform the movement relative to camera orientation
         Vector3 relativeMovement = cameraRight * movement.x + cameraForward * movement.z;
 
-        transform.Translate(relativeMovement * Time.deltaTime * speed, Space.World);
+        // Check for collision before moving
+        Vector3 proposedMovement = relativeMovement * Time.deltaTime * speed;
+        if (!WillCollideWithWalls(proposedMovement))
+        {
+            transform.Translate(proposedMovement, Space.World);
+        }
 
         Vector3 playerForward = transform.forward;
         Vector3 playerRight = transform.right;
@@ -274,5 +279,30 @@ public class PlayerController : MonoBehaviour
         // Set animator parameters based on movement relative to player's facing direction
         animator.SetFloat("Horizontal", rightMovement);
         animator.SetFloat("Vertical", forwardMovement);
+    }
+    
+    private bool WillCollideWithWalls(Vector3 movement)
+    {
+        float checkDistance = movement.magnitude + 0.1f;
+        Vector3 direction = movement.normalized;
+        
+        // Cast from multiple points around the player
+        Vector3[] checkPoints = {
+            transform.position,                              // Center
+            transform.position + Vector3.right * 0.4f,     // Right
+            transform.position + Vector3.left * 0.4f,      // Left
+            transform.position + Vector3.forward * 0.4f,   // Forward
+            transform.position + Vector3.back * 0.4f       // Back
+        };
+        
+        foreach (Vector3 point in checkPoints)
+        {
+            if (Physics.Raycast(point, direction, checkDistance, LayerMask.GetMask("Wall")))
+            {
+                return true; // Will collide
+            }
+        }
+        
+        return false;
     }
 }

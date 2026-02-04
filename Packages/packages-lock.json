@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.hans.versiondiff": {
+      "version": "file:Unity-VizDiff",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.burst": {
       "version": "1.8.21",
       "depth": 1,
